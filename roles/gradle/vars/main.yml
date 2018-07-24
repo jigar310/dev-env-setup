@@ -1,5 +1,5 @@
 gradle_version: 4.9
-gradle_checksum: sha256:dd9b24950dc4fca7d1ca5f1ccd57ca8c5b9eb407e3e6e0f48174fde4bb19ed06
+gradle_checksum: sha256:39e2d5803bbd5eaf6c8efe07067b0e5a00235e8c71318642b2ed262920b27721
 
 gradle_binary: "gradle-{{ gradle_version }}-all.zip"
 gradle_download_url: "https://services.gradle.org/distributions/{{ gradle_binary }}"

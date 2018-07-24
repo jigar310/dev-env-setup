@@ -2,7 +2,9 @@
 # run locally here, yadda yadda yadda
 - hosts: vm
   become: yes
+  gather_facts: false
   roles:
+    - init
     - sudo
     - java
     - gradle

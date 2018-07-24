@@ -14,7 +14,7 @@
 
 - block:
 
-  - name: "Install Gradle  {{ gradle_version }} unzip"
+  - name: "Install unzip"
     package:
       name: unzip
       state: latest
@@ -27,7 +27,7 @@
 
   - name: "Extract Gradle {{ gradle_version }}"
     unarchive:
-      src: "{{ download_directory }}"
+      src: "{{ download_directory }}/{{gradle_binary}}"
       dest: "{{ install_directory }}"
       remote_src: True
 

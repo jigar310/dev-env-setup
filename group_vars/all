@@ -1,4 +1,4 @@
-user_name: jigar
+user_name: ubuntu
 home_dir: /home/{{user_name}}
 ansible_cache_dir: "{{home_dir}}/ansible_cache"
 download_directory: "{{home_dir}}/Downloads"
