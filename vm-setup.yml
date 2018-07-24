@@ -3,4 +3,6 @@
 - hosts: vm
   become: yes
   roles:
-    - vm
+    - sudo
+    - java
+    - gradle

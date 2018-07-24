@@ -1,0 +1,28 @@
+---
+- name: Add Repository for Java {{oracle_java_version}}
+  apt_repository: 
+    repo='ppa:linuxuprising/java' 
+    state=present
+
+- name: Set Java {{oracle_java_version}} Licence Agreement Selected
+  shell: /bin/echo debconf shared/accepted-oracle-license-v1-1 select true | /usr/bin/debconf-set-selections
+  become: yes
+
+- name: Set Java {{oracle_java_version}} Licence Agreement Seen
+  shell: /bin/echo debconf shared/accepted-oracle-license-v1-1 seen true | /usr/bin/debconf-set-selections
+  become: yes
+
+- name: Install Java {{oracle_java_version}}
+  apt: 
+    name=oracle-java{{oracle_java_version}}-installer
+    state=latest 
+    update-cache=yes 
+    force=yes
+  become: yes
+
+- name: Set Java {{oracle_java_version}} Default
+  apt: 
+    name=oracle-java{{oracle_java_version}}-set-default
+    state=latest 
+    update-cache=yes 
+  become: yes

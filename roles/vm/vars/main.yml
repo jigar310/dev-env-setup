@@ -1,5 +1,0 @@
-ansible_cache_dir: /home/jigar/ansible_cache
-oracle_java_version: 10
-gradle_version: 4.9
-gradle_zipfile: gradle-{{gradle_version}}-all.zip
-gradle_folder:  gradle-{{gradle_version}}
