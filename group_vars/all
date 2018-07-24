@@ -1,0 +1,7 @@
+user_name: ubuntu
+home_dir: /home/{{user_name}}
+ansible_cache_dir: "{{home_dir}}/ansible_cache"
+download_directory: "{{home_dir}}/Downloads"
+install_directory: /usr/local/dev-tools
+symbolic_link_path: /usr/local/bin
+#become_password: 1234

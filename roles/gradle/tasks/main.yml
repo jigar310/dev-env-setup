@@ -1,0 +1,77 @@
+---
+# tasks file for ansible-role-gradle
+
+- name: "Check gradle version (symbolic link) is present"
+  stat:
+    path: "{{ gradle_link }}"
+  register: gradle_present
+
+- name: "Further check gradle  {{ gradle_version }} version is present"
+  shell: "{{ gradle_link }} -v | grep {{ gradle_version }}"
+  changed_when: false
+  register: gradle_version_check
+  when: gradle_present.stat.exists
+
+- block:
+
+  - name: "Install unzip"
+    package:
+      name: unzip
+      state: latest
+
+  - name: "Download Gradle  {{ gradle_version }}"
+    get_url:
+      url: "{{ gradle_download_url }}"
+      dest: "{{ download_directory }}"
+      checksum: "{{ gradle_checksum }}"
+
+  - name: "Extract Gradle {{ gradle_version }}"
+    unarchive:
+      src: "{{ download_directory }}/{{gradle_binary}}"
+      dest: "{{ install_directory }}"
+      remote_src: True
+
+  - name: "Add gradle  {{ gradle_version }} symlink to path"
+    file:
+      src: "{{ install_directory }}/{{ gradle_extract_dir }}/bin/gradle"
+      dest: "{{ gradle_link }}"
+      owner: root
+      group: root
+      state: link
+
+  - name: "Validate Gradle  {{ gradle_version }} version"
+    shell: "{{ gradle_link }} -v | grep {{ gradle_version }}"
+    register: gradle_ver
+
+  - fail:
+      msg: "Seems to be gradle {{ gradle_version }} is missing ... aborting"
+    when: gradle_ver.rc != 0
+
+  when: not gradle_present.stat.exists
+
+- name: "Validate Gradle  {{ gradle_version }} version"
+  shell: "{{ gradle_link }} -v | grep {{ gradle_version }}"
+  changed_when: False
+  register: gradle_ver
+
+- debug:
+    msg: "Gradle {{ gradle_version }} is installed"
+  when: gradle_ver.rc == 0
+
+#- name: Download Gradle {{gradle_version}} from https://services.gradle.org/distributions/{{gradle_zipfile}} to {{ ansible_cache_dir }}
+# shell: "wget -4 -P {{ ansible_cache_dir }}   https://services.gradle.org/distributions/{{gradle_zipfile}}"
+
+#- name: Download Gradle {{gradle_version}} from https://services.gradle.org/distributions/{{gradle_zipfile}} to {{ ansible_cache_dir }}
+#  get_url: dest="{{ ansible_cache_dir }}" url=https://services.gradle.org/distributions/{{gradle_zipfile}}
+#  sudo: yes
+#  tags: [gradle]
+
+#- name: Extract Gradle
+#  shell: unzip "{{ ansible_cache_dir }}/{{gradle_zipfile}}" -d {{install_directory}}/ creates={{install_directory}}/{{gradle_folder}}
+#  sudo: yes
+#  tags: [gradle]
+
+#- name: Add Gradle executable symlink to path
+#  shell: ln -s {{install_directory}}/{{gradle_folder}}/bin/gradle {{symbolic_link_path}}/gradle creates={{symbolic_link_path}}/gradle
+#  sudo: yes
+#  tags: [gradle]

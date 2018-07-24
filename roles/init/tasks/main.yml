@@ -1,0 +1,15 @@
+---
+- name: Create Download directory
+  file:
+    path: "{{ download_directory }}"
+    state: directory
+- name: Create Ansible Cache directory
+  file:
+    path: "{{ ansible_cache_dir }}"
+    state: directory
+- name: Create Installation directory
+  file:
+    path: "{{ install_directory }}"
+    state: directory
+- name: Install python 2
+  raw: test -e /usr/bin/python || (apt -y update && apt install -y python-minimal)
