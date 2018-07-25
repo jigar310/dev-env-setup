@@ -1,4 +1,6 @@
 ---
+- name: Install python 2
+  raw: test -e /usr/bin/python || (apt -y update && apt install -y python-minimal)
 - name: Create Download directory
   file:
     path: "{{ download_directory }}"
@@ -11,5 +13,3 @@
   file:
     path: "{{ install_directory }}"
     state: directory
-- name: Install python 2
-  raw: test -e /usr/bin/python || (apt -y update && apt install -y python-minimal)
