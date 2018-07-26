@@ -1,0 +1,38 @@
+---
+- name: assert version vars
+  assert:
+    that:
+      - "maven_checksum not in (None, '')"
+
+- name: download Maven
+  get_url:
+    url: '{{ maven_mirror }}/{{ maven_redis_filename }}'
+    dest: '{{ download_directory }}/{{ maven_redis_filename }}'
+    sha256sum: '{{ maven_checksum }}'
+    force: no
+    use_proxy: yes
+    validate_certs: yes
+    mode: 'u=rw,go=r'
+
+- name: install unarchive module dependencies
+  become: yes
+  package:
+    name: '{{ item }}'
+    state: present
+  with_items:
+    - tar
+    - unzip
+
+- name: install Maven
+  become: yes
+  unarchive:
+    src: '{{ download_directory }}/{{ maven_redis_filename }}'
+    dest: '{{ install_directory }}'
+    copy: no
+    owner: root
+    group: root
+    mode: 'go-w'
+    creates: '{{ install_directory }}/apache-maven-{{ maven_version }}'
+
+- include: create-symbolic-links.yml
+  when: maven_is_default_installation

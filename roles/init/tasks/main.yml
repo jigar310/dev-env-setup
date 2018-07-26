@@ -1,15 +1,20 @@
 ---
 - name: Install python 2
   raw: test -e /usr/bin/python || (apt -y update && apt install -y python-minimal)
+- name: Gathering facts Manually
+  setup:
 - name: Create Download directory
   file:
     path: "{{ download_directory }}"
+    mode: 'u=rwx,go=rx'
     state: directory
 - name: Create Ansible Cache directory
   file:
     path: "{{ ansible_cache_dir }}"
+    mode: 'u=rwx,go=rx'
     state: directory
 - name: Create Installation directory
   file:
     path: "{{ install_directory }}"
+    mode: 'u=rwx,go=rx'
     state: directory
