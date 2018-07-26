@@ -1,0 +1,22 @@
+# Maven version number
+maven_version: '3.5.4'
+maven_checksum: ce50b1c91364cb77efe3776f756a6d92b76d9038b0a0782f7d53acf1e997a14d
+
+
+# Mirror to download the Maven redistributable package from
+maven_mirror: "http://archive.apache.org/dist/maven/maven-{{ maven_version|regex_replace('\\..*', '') }}/{{ maven_version }}/binaries"
+
+# If this is the default installation, symbolic links to mvn and mvnDebug will
+# be created in /usr/local/bin
+maven_is_default_installation: yes
+# Name of the group of Ansible facts relating this Maven installation.
+#
+# Override if you want use this role more than once to install multiple versions
+# of Maven.
+#
+# e.g. maven_fact_group_name: maven_3_3
+# would change the Maven home fact to:
+# ansible_local.maven_3_2.general.home
+maven_fact_group_name: maven
+# Filename of Maven redistributable package
+maven_redis_filename: 'apache-maven-{{ maven_version }}-bin.tar.gz'
