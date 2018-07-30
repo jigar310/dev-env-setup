@@ -5,8 +5,9 @@
   gather_facts: false
   roles:
     - init
-    - docker
-    - sudo
-    - java
-    - maven
-    - gradle
+    - git
+    # - docker
+    # - sudo
+    # - java
+    # - maven
+    # - gradle
