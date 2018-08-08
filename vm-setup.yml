@@ -5,9 +5,13 @@
   gather_facts: false
   roles:
     - init
-    - git
-    # - docker
     # - sudo
     # - java
     # - maven
     # - gradle
+    # - git
+    # - docker
+    # - postgres
+    # - nginx
+    - tomcat
+    # - eclipse
