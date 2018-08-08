@@ -1,0 +1,56 @@
+galaxy_info:
+  role_name: nginx
+  author: your name
+  description: your description
+  company: your company (optional)
+
+  # If the issue tracker for your role is not on github, uncomment the
+  # next line and provide a value
+  # issue_tracker_url: http://example.com/issue/tracker
+
+  # Some suggested licenses:
+  # - BSD (default)
+  # - MIT
+  # - GPLv2
+  # - GPLv3
+  # - Apache
+  # - CC-BY
+  license: license (GPLv2, CC-BY, etc)
+
+  min_ansible_version: 2.4.0.0
+
+  platforms:
+  - name: Debian
+    versions:
+      - jessie
+      - stretch
+  - name: Ubuntu
+    versions:
+      - trusty
+      - xenial
+      - artful
+      - bionic
+  - name: EL
+    versions:
+      - 6
+      - 7
+  - name: SLES
+    versions:
+      - 12
+  - name: FreeBSD
+    versions:
+      - 10.4
+      - 11.2
+
+  galaxy_tags:
+    - nginx
+    - amplify
+    - oss
+    - plus
+    - web
+    - server
+    - unit
+    - development
+    - web
+
+dependencies: []
