@@ -1,6 +1,6 @@
 ---
 # run locally here, yadda yadda yadda
-- hosts: local
+- hosts: vm
   become: yes
   gather_facts: false
   roles:
