@@ -1,12 +1,17 @@
 ---
 # run locally here, yadda yadda yadda
-- hosts: vm
+- hosts: local
   become: yes
   gather_facts: false
   roles:
-    - init
-    - docker
-    - sudo
-    - java
-    - maven
-    - gradle
+    #- init
+    #- sudo
+    #- java
+    #- maven
+    #- gradle
+    #- git
+    #- docker
+    #- postgres
+    #- nginx
+    #- tomcat
+     - eclipse

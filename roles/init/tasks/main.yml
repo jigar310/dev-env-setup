@@ -18,3 +18,17 @@
     path: "{{ install_directory }}"
     mode: 'u=rwx,go=rx'
     state: directory
+- name: Install openssh-client
+  apt:
+    name=openssh-client
+    state=latest
+    update-cache=yes
+    force=yes
+  become: yes
+- name: Install openssh-server
+  apt:
+    name=openssh-server
+    state=latest
+    update-cache=yes
+    force=yes
+  become: yes

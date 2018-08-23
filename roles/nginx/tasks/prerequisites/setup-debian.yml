@@ -1,0 +1,8 @@
+---
+- name: "(Install: Debian/Ubuntu) Install Required Debian and Ubuntu Dependencies"
+  apt:
+    name: "{{ debianDependencies }}"
+  vars:
+    debianDependencies:
+    - apt-transport-https
+    - dirmngr

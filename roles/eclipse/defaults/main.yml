@@ -1,0 +1,61 @@
+---
+#http://ftp.osuosl.org/pub/eclipse/technology/epp/downloads/release/photon/R/eclipse-jee-photon-R-linux-gtk-x86_64.tar.gz
+#http://www.eclipse.org/downloads/download.php?file=/technology/epp/downloads/release/photon/R/eclipse-jee-photon-R-linux-gtk-x86_64.tar.gz&mirror_id=492
+#    eclipse_arch: "{{eclipse.arch}}"
+#    eclipse_distro: "{{eclipse.distro}}"
+#    eclipse_gui: "{{eclipse.gui}}"
+#    eclipse_os: "{{eclipse.os}}"
+#    eclipse_package: "{{eclipse.distros[eclipse.distro].package}}"
+#    eclipse_update: "{{eclipse.distros[eclipse.distro].latest_service_release}}"
+#    eclipse_url: "{{eclipse.url}}"
+#    lombok_file_jar: "lombok.jar"
+#    eclipse_file_tar:"eclipse-{{ eclipse_package }}-{{ eclipse_distro }}-{{ eclipse_update }}-{{ eclipse_os }}{{ '-' ~ eclipse_gui if eclipse_gui }}{{ '-' ~ eclipse_arch if eclipse_arch }}.tar.gz"
+#    eclipse_download_url: "{{eclipse_url}}/{{eclipse_distro}}/{{eclipse_update}}/{{eclipse_file_tar}}&r=1"
+eclipse:
+  url: "http://ftp.osuosl.org/pub/eclipse/technology/epp/downloads/release"
+  arch: "x86_64"
+  installation_directory: "{{install_directory}}/eclipse"
+  os: linux
+  gui: "gtk"
+  distro: "photon"
+  distros:
+    photon:
+      version: R
+      latest_service_release: R
+      package: jee
+  plugins:
+    subversive:
+      repositories:
+        - http://download.eclipse.org/releases/photon/
+      install_units:
+        - org.eclipse.team.svn.feature.group
+        - org.eclipse.team.svn.m2e.feature.group
+        - org.eclipse.team.svn.mylyn.feature.group
+        - org.eclipse.team.svn.nl1.feature.group
+        - org.eclipse.team.svn.revision.graph.feature.group
+      creates_feature: org.eclipse.team.svn
+    svn_connector:
+      repositories:
+        - http://community.polarion.com/projects/subversive/download/eclipse/6.0/neon-site
+      install_units:
+        - org.polarion.eclipse.team.svn.connector.svnkit18.feature.group
+      creates_feature: org.polarion.eclipse.team.svn.connector.svnkit18
+    yedit:
+      repositories:
+        - http://dadacoalition.org/yedit
+      install_units:
+        - org.dadacoalition.yedit
+      creates_feature: org.dadacoalition.yedit_
+    test_ng:
+      repositories:
+        - http://beust.com/eclipse
+      install_units:
+        - org.testng.eclipse
+      creates_feature: org.testng.eclipse_
+    test_ng_maven_plugin:
+      repositories:
+        - http://beust.com/eclipse
+      install_units:
+        - org.testng.eclipse.maven
+      creates_feature: org.testng.eclipse.maven_
+lombok_download_url: https://projectlombok.org/downloads/lombok.jar
