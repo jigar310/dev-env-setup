@@ -76,8 +76,8 @@
   template:
     dest: "{{home_dir ~ '/Desktop/eclipse-'}}{{eclipse_distro|lower}}-{{eclipse_package|lower}}-{{eclipse_update|lower}}.desktop"
     group: root
-    mode: 0644
-    owner: root
+    mode: 0775
+    owner: "{{user_name}}"
     src: eclipse.desktop.j2
   when: eclipse_ini_path_stat.stat.exists == True
 
@@ -85,7 +85,7 @@
   template:
     dest: /usr/share/applications/eclipse-{{eclipse_distro|lower}}-{{eclipse_package|lower}}-{{eclipse_update|lower}}.desktop
     group: root
-    mode: 0644
-    owner: root
+    mode: 0775
+    owner: "{{user_name}}"
     src: eclipse.desktop.j2
   when: eclipse_ini_path_stat.stat.exists == True

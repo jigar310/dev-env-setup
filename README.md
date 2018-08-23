@@ -61,4 +61,6 @@ wq!
 sudo service ssh restart
 ```
 
+Also go to /group_vars/all file and change the user_name to your target username. 
+
 Now try again to copy the ssh keys.
