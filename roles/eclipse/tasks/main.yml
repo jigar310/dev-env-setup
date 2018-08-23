@@ -67,6 +67,11 @@
     path: "{{ eclipse_ini_path }}"
   register: eclipse_ini_path_stat
 
+- name: Creates Desktop directory if doesn't exist
+  file:
+    path: "{{home_dir ~ '/Desktop'}}"
+    state: directory
+
 - name: Initialize Desktop shortcut
   template:
     dest: "{{home_dir ~ '/Desktop/eclipse-'}}{{eclipse_distro|lower}}-{{eclipse_package|lower}}-{{eclipse_update|lower}}.desktop"
