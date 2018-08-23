@@ -28,6 +28,8 @@
 - name: Tomcat | Check Tomcat version
   command: "java -cp {{ tomcat_install_path }}/lib/catalina.jar org.apache.catalina.util.ServerInfo | grep 'Server version' | sed 's/Server version: //g'"
   register: tomcat_check
+  become: true
+  become_user: tomcat
   changed_when: false
   ignore_errors: true
 
@@ -41,7 +43,7 @@
     owner: "{{ tomcat_user }}"
     group: "{{ tomcat_group }}"
     mode: 0750
-  when: 'tomcat_force_reinstall or tomcat_check|failed or tomcat_check.stdout == "Apache Tomcat/tomcat_version"'
+  when: 'tomcat_force_reinstall or tomcat_check is failed or tomcat_check.stdout == "Apache Tomcat/tomcat_version"'
 
 - name: Tomcat | Copy Daemon script
   template:

@@ -1,0 +1,86 @@
+---
+- name: Set eclipse vars from defaults or settings
+  set_fact:
+    eclipse_arch: "{{eclipse.arch}}"
+    eclipse_distro: "{{eclipse.distro}}"
+    eclipse_gui: "{{eclipse.gui}}"
+    eclipse_os: "{{eclipse.os}}"
+    eclipse_package: "{{eclipse.distros[eclipse.distro].package}}"
+    eclipse_update: "{{eclipse.distros[eclipse.distro].latest_service_release}}"
+    eclipse_url: "{{eclipse.url}}"
+    lombok_file_jar: "lombok.jar"
+  failed_when: eclipse_distro not in eclipse.distros
+
+- name: Set name of tar file
+  set_fact:
+    eclipse_file_tar: "eclipse-{{ eclipse_package }}-{{ eclipse_distro }}-{{ eclipse_update }}-{{ eclipse_os }}{{ '-' ~ eclipse_gui if eclipse_gui }}{{ '-' ~ eclipse_arch if eclipse_arch }}.tar.gz"
+
+- name: Set packages download url, destination path and install directory
+  set_fact:
+    eclipse_download_url: "{{eclipse_url}}/{{eclipse_distro}}/{{eclipse_update}}/{{eclipse_file_tar}}"
+    eclipse_package_download_path: "{{ download_directory ~ '/' ~ eclipse_file_tar }}"
+
+- name: Set Eclipse installation directory
+  set_fact:
+    eclipse_install_dir: "{{eclipse.installation_directory ~ '-' ~ eclipse.distro ~ '-' ~ eclipse_update}}"
+
+- name: Set name of unpacked eclipse directory
+  set_fact:
+    eclipse_unpack_dir: "{{ eclipse_install_dir ~ '/eclipse'}}"
+    eclipse_ini_path: "{{ eclipse_install_dir ~ '/eclipse/eclipse.ini' }}"
+
+- name: Create install directory
+  file:
+    dest: "{{ eclipse_install_dir }}"
+    state: directory
+
+- name: "Download eclipse:  {{ eclipse_download_url }}"
+  get_url:
+    url: "{{ eclipse_download_url }}"
+    dest: "{{ download_directory }}/{{eclipse_file_tar}}"
+
+- name: "Extract eclipse: {{ eclipse_file_tar }}"
+  unarchive:
+    src: "{{ download_directory }}/{{eclipse_file_tar}}"
+    creates: "{{ eclipse_ini_path }}"
+    dest: "{{ eclipse_install_dir }}"
+    remote_src: yes
+
+- name: Set lombok destination path
+  set_fact:
+    lombok_destination_path: "{{eclipse_unpack_dir ~ '/' ~ lombok_file_jar}}"
+
+- name: Copy Lombok jar to Eclipse root
+  get_url:
+    dest: "{{lombok_destination_path}}"
+    url: "{{lombok_download_url}}"
+
+- name: Configure Lombok
+  lineinfile:
+  args:
+    dest: "{{ eclipse_ini_path }}"
+    insertafter: EOF
+    line: "-javaagent:{{lombok_destination_path}}"
+
+- name: Check if Eclipse is already installed
+  stat:
+    path: "{{ eclipse_ini_path }}"
+  register: eclipse_ini_path_stat
+
+- name: Initialize Desktop shortcut
+  template:
+    dest: "{{home_dir ~ '/Desktop/eclipse-'}}{{eclipse_distro|lower}}-{{eclipse_package|lower}}-{{eclipse_update|lower}}.desktop"
+    group: root
+    mode: 0644
+    owner: root
+    src: eclipse.desktop.j2
+  when: eclipse_ini_path_stat.stat.exists == True
+
+- name: Initialize start menu shortcut
+  template:
+    dest: /usr/share/applications/eclipse-{{eclipse_distro|lower}}-{{eclipse_package|lower}}-{{eclipse_update|lower}}.desktop
+    group: root
+    mode: 0644
+    owner: root
+    src: eclipse.desktop.j2
+  when: eclipse_ini_path_stat.stat.exists == True

@@ -1,7 +1,7 @@
 ---
 ## General
 
-tomcat_version: 8.5.31
+tomcat_version: 9.0.11
 
 ## Service options
 
@@ -12,10 +12,10 @@ tomcat_group: tomcat
 # start on boot
 tomcat_service_enabled: yes
 # current state: started, stopped
-tomcat_service_state: started
+tomcat_service_state: stopped
 
 # Files & Paths
-tomcat_install_path: "/opt/tomcat"
+tomcat_install_path: "{{ install_directory }}/tomcat"
 tomcat_bin_path: "{{ tomcat_install_path }}/bin"
 tomcat_conf_path: "{{ tomcat_install_path }}/conf"
 tomcat_webapps_path: "{{ tomcat_install_path }}/webapps"
