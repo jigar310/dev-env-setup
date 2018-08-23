@@ -4,14 +4,14 @@
   become: yes
   gather_facts: false
   roles:
-    #- init
-    #- sudo
-    #- java
-    #- maven
-    #- gradle
-    #- git
-    #- docker
-    #- postgres
-    #- nginx
-    #- tomcat
-     - eclipse
+    - init
+    - sudo
+    - java
+    - maven
+    - gradle
+    - git
+    - docker
+    - postgres
+    - nginx
+    - tomcat
+    - eclipse

@@ -3,5 +3,5 @@
 
 [vm]
 #192.168.0.26 ansible_become_pass={{become_password}}
-35.183.28.7
+35.183.130.182
 #192.168.0.26
